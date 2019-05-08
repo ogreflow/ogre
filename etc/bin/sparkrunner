@@ -1,0 +1,3 @@
+#!/bin/bash
+
+java -Xmx100M -cp "`dirname "$0"`/../ogre.jar" com.ws.ogre.v2.SparkRunner "$@"

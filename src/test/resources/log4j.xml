@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM 'log4j.dtd'>
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
+
+
+    <appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+       <param name="threshold" value="TRACE"/>
+       <layout class="org.apache.log4j.PatternLayout">
+           <param name="ConversionPattern" value="%d %-5p (%t) [%c{1}] %m%n"/>
+    	</layout>
+     </appender>
+
+    <appender name="rollingfile" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${LOG_FILE_PATH}" />
+        <param name="DatePattern" value="'.'yyyy-MM-dd" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p (%t) [%c{1}] %m%n"/>
+        </layout>
+    </appender>
+
+    <!-- ================ -->
+    <!-- Limit categories -->
+    <!-- ================ -->
+
+    <!-- Ws specifics -->
+    <category name="com.ws">
+        <priority value="TRACE"/>
+    </category>
+
+    <category name="com.amazonaws">
+        <priority value="ERROR"/>
+    </category>
+
+    <category name="org">
+        <priority value="WARN"/>
+    </category>
+
+    <category name="net">
+        <priority value="WARN"/>
+    </category>
+
+
+<!-- ======================= -->
+<!-- Setup the Root category -->
+<!-- ======================= -->
+    <root>
+        <appender-ref ref="stdout"/>
+    </root>
+
+</log4j:configuration>
