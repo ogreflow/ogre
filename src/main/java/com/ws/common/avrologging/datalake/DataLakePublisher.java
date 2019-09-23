@@ -43,7 +43,7 @@ import java.util.List;
  * Example:
  *
  * // Create a Data Lake publisher for helping out writing and publishing avro records.
- * DataLakePublisher aPublisher = new DataLakePublisher("comp", "source", "/tmp/datalake/", "ws-dl-comp-raw", "xxx", "yyy");
+ * DataLakePublisher aPublisher = new DataLakePublisher("comp", "source", "/tmp/datalake/", "<bucket-name>", "xxx", "yyy");
  *
  * // Create a writer for the generated AVRO record class Event. The writer will package the written records into an AVRO
  * // container file when either the max number of 10000 records reached or the records exceeded a two minute age.

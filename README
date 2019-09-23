@@ -4,25 +4,25 @@ O.G.R.E TOOLBOX
 General
 -----------------------------------------------------------------------
 
-Ogre is a suite of tools to facilitate for moving around and operate on data in the "Widespace Data Lake".
+Ogre is a suite of tools to facilitate for moving around and operate on data in the "Data Lake".
 
 Ogre is open sourced by Widespace AB under Apache License, Version 2.0:
    https://opensource.org/licenses/Apache-2.0
 
-The Widespace Data Lake is the company wide repository where Widespace components publish their data for others to
+The Data Lake is the company wide repository where different components publish their data for others to
 process and work with it. The data lake is hosted in S3 and there are some rules to follow in order to publish data
 there:
 
  1. The data should be packed as records in AVRO container files.
  2. Each data record should contain an id and timestamp in UTC.
  3. All records within a data file must belong to the same hour.
- 4. Data files are uploaded and published into the Widespace data lake using following S3 URL pattern:
+ 4. Data files are uploaded and published into the data lake using following S3 URL pattern:
 
     s3://<bucket>/<format>/<component>/<source>/<type>/d=<yyyy-MM-dd>/h=<hour>/<filename>
 
     Where:
 
-    - <bucket>      The Widespace Data Lake bucket
+    - <bucket>      The Data Lake bucket
     - <format>      Format of the files under the component (e.g. avro, json)
     - <component>   The application/component producing data (e.g. engine, rs, apls, inscreenservice)
     - <source>      The name of log/data (e.g. rl2, accesslogs, perflogs, inscreenlogs)
@@ -40,7 +40,7 @@ there:
     99% of the cases.
 
 
-Many options exists to join and process the data in the Widespace Data Lake:
+Many options exists to join and process the data in the Data Lake:
 
  - Redshift (Ogre can load/sync data from lake into a custom Redshift)
  - EMR      (can work with avro files in S3 natively)
