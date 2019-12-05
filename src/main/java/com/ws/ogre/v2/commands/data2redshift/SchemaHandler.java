@@ -3,7 +3,7 @@ package com.ws.ogre.v2.commands.data2redshift;
 import com.google.gson.Gson;
 import com.ws.common.logging.Logger;
 import com.ws.ogre.v2.aws.S3Client;
-import com.ws.ogre.v2.aws.S3Url;
+import com.ws.ogre.v2.aws.S3BetterUrl;
 import com.ws.ogre.v2.commands.data2redshift.db.ColumnMappingDao;
 import com.ws.ogre.v2.commands.data2redshift.db.DdlLogDao;
 import com.ws.ogre.v2.commands.data2redshift.db.RedShiftDao;
@@ -18,13 +18,13 @@ public class SchemaHandler {
 
     private S3Client myS3Client;
 
-    private S3Url myMappingsDir;
-    private S3Url myDdlDir;
+    private S3BetterUrl myMappingsDir;
+    private S3BetterUrl myDdlDir;
 
     private PartitionHandler myPartitionHandler;
 
 
-    public SchemaHandler(S3Url theDdlDir, S3Url theMappingDir, String theAccessKeyId, String theSecretKey, PartitionHandler thePartitionHandler) {
+    public SchemaHandler(S3BetterUrl theDdlDir, S3BetterUrl theMappingDir, String theAccessKeyId, String theSecretKey, PartitionHandler thePartitionHandler) {
         myDdlDir = theDdlDir;
         myMappingsDir = theMappingDir;
 
@@ -70,11 +70,11 @@ public class SchemaHandler {
 
     private DdlFiles getMasterDdlFiles() {
 
-        List<S3Url> aFiles = myS3Client.listObjects(myDdlDir);
+        List<S3BetterUrl> aFiles = myS3Client.listObjects(myDdlDir);
 
         DdlFiles aDdlFiles = new DdlFiles();
 
-        for (S3Url aFile : aFiles) {
+        for (S3BetterUrl aFile : aFiles) {
             String aKey = aFile.key;
 
             if (!aKey.endsWith(".ddl")) {

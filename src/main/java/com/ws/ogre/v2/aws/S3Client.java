@@ -27,7 +27,7 @@ public class S3Client {
         return myCredentials;
     }
 
-    public List<S3Url> listObjects(S3Url theRoot, int theLimit) {
+    public List<S3BetterUrl> listObjects(S3BetterUrl theRoot, int theLimit) {
         try {
             AmazonS3Client aClient = new AmazonS3Client(myCredentials);
 
@@ -37,12 +37,12 @@ public class S3Client {
                     .withMaxKeys(theLimit);
 
 
-            List<S3Url> anUrls = new ArrayList<>();
+            List<S3BetterUrl> anUrls = new ArrayList<>();
 
             ObjectListing aListing = aClient.listObjects(aRequest);
 
             for (S3ObjectSummary aSummary : aListing.getObjectSummaries()) {
-                anUrls.add(new S3Url(aSummary.getBucketName(), aSummary.getKey()));
+                anUrls.add(new S3BetterUrl(aSummary.getBucketName(), aSummary.getKey()));
             }
 
             return anUrls;
@@ -52,7 +52,7 @@ public class S3Client {
         }
     }
 
-    public List<S3Url> listObjects(S3Url theRoot) {
+    public List<S3BetterUrl> listObjects(S3BetterUrl theRoot) {
         try {
             AmazonS3Client aClient = new AmazonS3Client(myCredentials);
 
@@ -62,7 +62,7 @@ public class S3Client {
 
             ObjectListing aListing;
 
-            List<S3Url> anUrls = new ArrayList<>();
+            List<S3BetterUrl> anUrls = new ArrayList<>();
 
             do {
                 aListing = aClient.listObjects(aRequest);
@@ -73,7 +73,7 @@ public class S3Client {
                         continue;
                     }
 
-                    anUrls.add(new S3Url(aSummary.getBucketName(), aSummary.getKey()));
+                    anUrls.add(new S3BetterUrl(aSummary.getBucketName(), aSummary.getKey()));
                 }
                 aRequest.setMarker(aListing.getNextMarker());
 
@@ -86,7 +86,7 @@ public class S3Client {
         }
     }
 
-    public List<S3Url> listFolders(S3Url theRoot) {
+    public List<S3BetterUrl> listFolders(S3BetterUrl theRoot) {
         try {
             AmazonS3Client aClient = new AmazonS3Client(myCredentials);
 
@@ -103,12 +103,12 @@ public class S3Client {
 
             ObjectListing aListing;
 
-            List<S3Url> anUrls = new ArrayList<>();
+            List<S3BetterUrl> anUrls = new ArrayList<>();
 
             do {
                 aListing = aClient.listObjects(aRequest);
                 for (String aPrefix : aListing.getCommonPrefixes()) {
-                    anUrls.add(new S3Url(theRoot.bucket, aPrefix));
+                    anUrls.add(new S3BetterUrl(theRoot.bucket, aPrefix));
                 }
                 aRequest.setMarker(aListing.getNextMarker());
 
@@ -203,7 +203,7 @@ public class S3Client {
         }
     }
 
-    public void putObject(S3Url theUrl, File theData) {
+    public void putObject(S3BetterUrl theUrl, File theData) {
         putObject(theUrl.bucket, theUrl.key, theData);
     }
 
@@ -245,11 +245,11 @@ public class S3Client {
         }
     }
 
-    public void deleteObjects(S3Url theRoot) {
+    public void deleteObjects(S3BetterUrl theRoot) {
 
         List<String> aKeys = new ArrayList<>();
 
-        for (S3Url anUrl : listObjects(theRoot)) {
+        for (S3BetterUrl anUrl : listObjects(theRoot)) {
             aKeys.add(anUrl.key);
         }
 
@@ -278,7 +278,7 @@ public class S3Client {
         }
     }
 
-    public void copy(S3Url theFrom, S3Url theTo) {
+    public void copy(S3BetterUrl theFrom, S3BetterUrl theTo) {
 
         AmazonS3Client aClient = new AmazonS3Client(myCredentials);
 

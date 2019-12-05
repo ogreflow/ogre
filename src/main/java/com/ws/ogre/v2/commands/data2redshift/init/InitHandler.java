@@ -1,6 +1,6 @@
 package com.ws.ogre.v2.commands.data2redshift.init;
 
-import com.ws.ogre.v2.aws.S3Url;
+import com.ws.ogre.v2.aws.S3BetterUrl;
 import com.ws.ogre.v2.aws.S3Client;
 import com.ws.ogre.v2.commands.data2redshift.Config;
 
@@ -20,7 +20,7 @@ public class InitHandler {
         myS3Client = new S3Client(theConfig.srcAccessKey, theConfig.srcSecret);
     }
 
-    private void testS3(S3Url theUrl) {
+    private void testS3(S3BetterUrl theUrl) {
         try {
 
             System.out.println("Testing access to: " + theUrl);

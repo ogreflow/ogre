@@ -4,7 +4,7 @@ import com.amazonaws.services.s3.model.StorageClass;
 import com.ws.common.logging.Alert;
 import com.ws.common.logging.Logger;
 import com.ws.ogre.v2.aws.S3Client;
-import com.ws.ogre.v2.aws.S3Url;
+import com.ws.ogre.v2.aws.S3BetterUrl;
 import com.ws.ogre.v2.datafile.DataFileHandler;
 import com.ws.ogre.v2.datafile.DataFileHandler.DataFile;
 import com.ws.ogre.v2.datafile.DataFileHandler.DataFiles;
@@ -42,7 +42,7 @@ public class DataCopyHandler {
 
     private DataFileHandler myDstDataFileHandler;
     private S3Client myDstS3Client;
-    private S3Url myDstRoot;
+    private S3BetterUrl myDstRoot;
     private StorageClass myDstStorageClass;
 
     private Set<String> myTypes;
@@ -231,7 +231,7 @@ public class DataCopyHandler {
         File aSrcFile = mySrcDataFileHandler.downloadDataFile(theFile);
         aSrcFile.deleteOnExit(); // Safe guard to delete even though we will manually delete it later.
 
-        S3Url aDest = DataFile.createUrl(myDstRoot, theFile.date, theFile.hour, theFile.type, theFile.name, theFile.ext);
+        S3BetterUrl aDest = DataFile.createUrl(myDstRoot, theFile.date, theFile.hour, theFile.type, theFile.name, theFile.ext);
         myDstDataFileHandler.uploadDataFile(aSrcFile, new DataFile(aDest), myDstStorageClass);
 
         ourLogger.info("Deleting temporary file: %s", aSrcFile.getAbsolutePath());

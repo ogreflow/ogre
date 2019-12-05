@@ -1,6 +1,6 @@
 package com.ws.ogre.v2.commands.avro2kinesis;
 
-import com.ws.ogre.v2.aws.S3Url;
+import com.ws.ogre.v2.aws.S3BetterUrl;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
@@ -38,7 +38,7 @@ public class Config {
 
     public String srcAccessKey;
     public String srcSecret;
-    public S3Url  srcRoot;
+    public S3BetterUrl srcRoot;
 
     public String dstAccessKey;
     public String dstSecret;
@@ -65,7 +65,7 @@ public class Config {
 
         srcAccessKey = aConf.getString(PROP_SRC_S3_KEYID);
         srcSecret    = aConf.getString(PROP_SRC_S3_SECRET);
-        srcRoot      = new S3Url(aConf.getString(PROP_SRC_S3_ROOT));
+        srcRoot      = new S3BetterUrl(aConf.getString(PROP_SRC_S3_ROOT));
 
         dstAccessKey = aConf.getString(PROP_DST_KINESIS_KEYID);
         dstSecret    = aConf.getString(PROP_DST_KINESIS_SECRET);

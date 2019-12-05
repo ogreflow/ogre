@@ -32,7 +32,7 @@ public class AthenaClient {
         return myDbHandler;
     }
 
-    public void addDatePartitions(String theTable, S3Url theLocation, DateHour.Range theRange) throws Exception {
+    public void addDatePartitions(String theTable, S3BetterUrl theLocation, DateHour.Range theRange) throws Exception {
 
         ourLogger.info("Add missing Athena %s table partitions", theTable);
 
@@ -75,7 +75,7 @@ public class AthenaClient {
         myDbHandler.execute(aSql);
     }
 
-    public boolean addHourPartitions(String theTable, S3Url theLocation, DateHour.Range theRange) throws Exception {
+    public boolean addHourPartitions(String theTable, S3BetterUrl theLocation, DateHour.Range theRange) throws Exception {
 
         String anUrl = theLocation.toString();
 

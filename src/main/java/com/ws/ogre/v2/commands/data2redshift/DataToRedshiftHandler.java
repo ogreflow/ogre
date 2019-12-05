@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.ws.common.logging.Alert;
 import com.ws.common.logging.Logger;
 import com.ws.ogre.v2.aws.S3Client;
-import com.ws.ogre.v2.aws.S3Url;
+import com.ws.ogre.v2.aws.S3BetterUrl;
 import com.ws.ogre.v2.commands.data2redshift.db.ColumnMappingDao;
 import com.ws.ogre.v2.commands.data2redshift.db.DbHandler;
 import com.ws.ogre.v2.commands.data2redshift.db.ImportLogDao;
@@ -42,9 +42,9 @@ public class DataToRedshiftHandler {
     private DataFileHandler myDataFileHandler;
     private ImportedHandler myImportedHandler;
 
-    private S3Url myTmpDir;
-    private S3Url myManifestDir;
-    private S3Url myMappingsDir;
+    private S3BetterUrl myTmpDir;
+    private S3BetterUrl myManifestDir;
+    private S3BetterUrl myMappingsDir;
 
     private Set<String> myTypes;
     private Set<String> myRequestedTypes;
@@ -68,11 +68,11 @@ public class DataToRedshiftHandler {
         ourRedShiftDao.init(theConfig.srcAccessKey, theConfig.srcSecret, theConfig.dstSchema);
 
         // Create a unique tmpdir
-        myTmpDir = new S3Url(theConfig.srcTmpDir, "" + new Random().nextLong());
+        myTmpDir = new S3BetterUrl(theConfig.srcTmpDir, "" + new Random().nextLong());
 
         // Create s3 dirs for manifests and mappings under temp dir
-        myManifestDir = new S3Url(myTmpDir, "manifest");
-        myMappingsDir = new S3Url(myTmpDir, "mappings");
+        myManifestDir = new S3BetterUrl(myTmpDir, "manifest");
+        myMappingsDir = new S3BetterUrl(myTmpDir, "mappings");
 
 
         // Handler managing table partitioning
@@ -453,10 +453,10 @@ public class DataToRedshiftHandler {
             aToImport.sortAsc();
 
             // Create a manifest file with the data files to import in copy
-            S3Url aManifest = generateManifest(aType, aToImport);
+            S3BetterUrl aManifest = generateManifest(aType, aToImport);
 
             // Point out the mappings file for which data to map to which db column
-            S3Url aMappings = new S3Url(myMappingsDir, aType + ".json");
+            S3BetterUrl aMappings = new S3BetterUrl(myMappingsDir, aType + ".json");
 
             Format aFormat = aToImport.get(0).isAvroFile() ? Format.AVRO : Format.JSON;
 
@@ -560,9 +560,9 @@ public class DataToRedshiftHandler {
     }
 
 
-    private S3Url generateManifest(String theType, DataFiles theFiles) {
+    private S3BetterUrl generateManifest(String theType, DataFiles theFiles) {
 
-        S3Url anUrl = new S3Url(myManifestDir, theType + "-" + System.currentTimeMillis() + ".json");
+        S3BetterUrl anUrl = new S3BetterUrl(myManifestDir, theType + "-" + System.currentTimeMillis() + ".json");
 
         ourLogger.info("Create manifest for %s files: %s", theFiles.size(), anUrl);
 
@@ -587,7 +587,7 @@ public class DataToRedshiftHandler {
         return anUrl;
     }
 
-    private void deleteManifest(S3Url theManifestUrl) {
+    private void deleteManifest(S3BetterUrl theManifestUrl) {
         try {
             myS3Client.deleteObjects(theManifestUrl);
         } catch (Exception e) {

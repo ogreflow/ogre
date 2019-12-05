@@ -2,7 +2,7 @@ package com.ws.ogre.v2.datafile;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
-import com.ws.ogre.v2.aws.S3Url;
+import com.ws.ogre.v2.aws.S3BetterUrl;
 import com.ws.ogre.v2.datafile.DataFileHandler.*;
 
 import java.util.List;
@@ -19,11 +19,11 @@ public class DataFileManifest {
     @SerializedName("includes")
     private List<String> myIncludes = new ArrayList<>();
 
-    public S3Url getFile() {
-        return new S3Url(myFile);
+    public S3BetterUrl getFile() {
+        return new S3BetterUrl(myFile);
     }
 
-    public void setFile(S3Url theFile) {
+    public void setFile(S3BetterUrl theFile) {
         myFile = theFile.toString();
     }
 
@@ -37,7 +37,7 @@ public class DataFileManifest {
         DataFiles aFiles = new DataFiles();
 
         for (String anUrl : myIncludes) {
-            aFiles.add(new DataFile(new S3Url(anUrl)));
+            aFiles.add(new DataFile(new S3BetterUrl(anUrl)));
         }
 
         return aFiles;

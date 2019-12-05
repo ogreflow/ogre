@@ -1,7 +1,7 @@
 package com.ws.ogre.v2.commands.datacopy;
 
 import com.amazonaws.services.s3.model.StorageClass;
-import com.ws.ogre.v2.aws.S3Url;
+import com.ws.ogre.v2.aws.S3BetterUrl;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
@@ -41,11 +41,11 @@ public class Config {
 
     public String srcAccessKey;
     public String srcSecret;
-    public S3Url srcRoot;
+    public S3BetterUrl srcRoot;
 
     public String dstAccessKey;
     public String dstSecret;
-    public S3Url dstRoot;
+    public S3BetterUrl dstRoot;
     public StorageClass dstClass;
 
     public static Config load(String theFile) {
@@ -66,11 +66,11 @@ public class Config {
 
         srcAccessKey = aConf.getString(PROP_SRC_S3_KEYID);
         srcSecret = aConf.getString(PROP_SRC_S3_SECRET);
-        srcRoot = new S3Url(aConf.getString(PROP_SRC_S3_ROOT));
+        srcRoot = new S3BetterUrl(aConf.getString(PROP_SRC_S3_ROOT));
 
         dstAccessKey = aConf.getString(PROP_DST_S3_KEYID);
         dstSecret = aConf.getString(PROP_DST_S3_SECRET);
-        dstRoot = new S3Url(aConf.getString(PROP_DST_S3_ROOT));
+        dstRoot = new S3BetterUrl(aConf.getString(PROP_DST_S3_ROOT));
         dstClass = StorageClass.fromValue(aConf.getString(PROP_DST_S3_STORAGECLASS, "STANDARD_IA"));
 
         types = aConf.getStringArray(PROP_TYPES);

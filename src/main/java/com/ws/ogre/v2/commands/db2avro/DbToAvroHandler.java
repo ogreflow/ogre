@@ -5,7 +5,7 @@ import com.ws.common.avrologging.writer.v2.AvroWriter;
 import com.ws.common.logging.Alert;
 import com.ws.common.logging.Logger;
 import com.ws.ogre.v2.aws.S3Client;
-import com.ws.ogre.v2.aws.S3Url;
+import com.ws.ogre.v2.aws.S3BetterUrl;
 import com.ws.ogre.v2.commands.db2avro.CliCommand.DdlCommand.Dialect;
 import com.ws.ogre.v2.datafile.DataFileHandler;
 import com.ws.ogre.v2.datafile.DataFileHandler.DataFiles;
@@ -47,7 +47,7 @@ public class DbToAvroHandler {
         myConfig = theConfig;
 
         myS3Client = new S3Client(theConfig.dstAccessKey, theConfig.dstSecret);
-        myDataFileHandler = new DataFileHandler(myS3Client, new S3Url(theConfig.getDstS3FullPath()));
+        myDataFileHandler = new DataFileHandler(myS3Client, new S3BetterUrl(theConfig.getDstS3FullPath()));
 
         myDbHandler = JdbcDbHandlerBuilder.getInstance().buildJdbcDbHandler(theConfig.getSrcDbConfig());
 

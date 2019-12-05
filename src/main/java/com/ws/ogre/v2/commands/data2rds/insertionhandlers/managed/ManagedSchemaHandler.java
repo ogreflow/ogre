@@ -2,7 +2,7 @@ package com.ws.ogre.v2.commands.data2rds.insertionhandlers.managed;
 
 import com.ws.common.logging.Logger;
 import com.ws.ogre.v2.aws.S3Client;
-import com.ws.ogre.v2.aws.S3Url;
+import com.ws.ogre.v2.aws.S3BetterUrl;
 import com.ws.ogre.v2.commands.data2rds.db.ColumnMappingDao;
 import com.ws.ogre.v2.commands.data2rds.db.DdlLogDao;
 import com.ws.ogre.v2.commands.data2rds.db.RdsDao;
@@ -19,9 +19,9 @@ public class ManagedSchemaHandler implements SchemaHandler {
 
     private S3Client myS3Client;
 
-    private S3Url myDdlDir;
+    private S3BetterUrl myDdlDir;
 
-    public ManagedSchemaHandler(S3Url theDdlDir, String theAccessKeyId, String theSecretKey) {
+    public ManagedSchemaHandler(S3BetterUrl theDdlDir, String theAccessKeyId, String theSecretKey) {
         myDdlDir = theDdlDir;
 
         myS3Client = new S3Client(theAccessKeyId, theSecretKey);
@@ -95,11 +95,11 @@ public class ManagedSchemaHandler implements SchemaHandler {
 
     private DdlFiles getMasterDdlFiles() {
 
-        List<S3Url> aFiles = myS3Client.listObjects(myDdlDir);
+        List<S3BetterUrl> aFiles = myS3Client.listObjects(myDdlDir);
 
         DdlFiles aDdlFiles = new DdlFiles();
 
-        for (S3Url aFile : aFiles) {
+        for (S3BetterUrl aFile : aFiles) {
             String aKey = aFile.key;
 
             if (!aKey.endsWith(".ddl")) {

@@ -1,7 +1,7 @@
 package com.ws.ogre.v2.commands.sparkrunner;
 
 import com.ws.ogre.v2.aws.EmrClient;
-import com.ws.ogre.v2.aws.S3Url;
+import com.ws.ogre.v2.aws.S3BetterUrl;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.lang3.StringUtils;
@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class Config {
     public String log4jConf;
-    public S3Url sqlRunnerJarPath;
+    public S3BetterUrl sqlRunnerJarPath;
     public String[] steps;
 
     public String emrAccessKeyId;
@@ -42,7 +42,7 @@ public class Config {
 
         log4jConf = aConf.getString("log4j.configuration");
 
-        sqlRunnerJarPath = new S3Url(aConf.getString("spark_sql_runner.jar"));
+        sqlRunnerJarPath = new S3BetterUrl(aConf.getString("spark_sql_runner.jar"));
 
         emrAccessKeyId = aConf.getString("emr.accessKeyId");
         emrSecretKey = aConf.getString("emr.secretKey");

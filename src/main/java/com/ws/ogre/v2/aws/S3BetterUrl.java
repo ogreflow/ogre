@@ -5,12 +5,12 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * S3 URL.
  */
-public class S3Url {
+public class S3BetterUrl {
 
     public String bucket;
     public String key;
 
-    public S3Url(S3Url theParent, String theSubKey) {
+    public S3BetterUrl(S3BetterUrl theParent, String theSubKey) {
         String aParentUrl = theParent.toString();
 
         if (!aParentUrl.endsWith("/") && !theSubKey.startsWith("/")) {
@@ -20,11 +20,11 @@ public class S3Url {
         resolve(aParentUrl + theSubKey);
     }
 
-    public S3Url(String theBucket, String theKey) {
+    public S3BetterUrl(String theBucket, String theKey) {
         resolve("s3://" + theBucket + "/" + theKey);
     }
 
-    public S3Url(String theUrl) {
+    public S3BetterUrl(String theUrl) {
         resolve(theUrl);
     }
 
@@ -53,11 +53,11 @@ public class S3Url {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof S3Url)) {
+        if (obj == null || !(obj instanceof S3BetterUrl)) {
             return false;
         }
 
-        S3Url that = (S3Url)obj;
+        S3BetterUrl that = (S3BetterUrl)obj;
 
         return StringUtils.equals(this.bucket, that.bucket) && StringUtils.equals(this.key, that.key);
     }
