@@ -2,7 +2,6 @@ package com.ws.ogre.v2.commands.data2rds;
 
 import com.ws.ogre.v2.aws.S3Client;
 import com.ws.ogre.v2.aws.S3BetterUrl;
-import com.ws.ogre.v2.commands.data2rds.Config;
 import com.ws.ogre.v2.db.JdbcDbHandler;
 import org.apache.commons.io.IOUtils;
 

@@ -2,11 +2,8 @@ package com.ws.ogre.v2.commands.avroconcat;
 
 import com.amazonaws.services.s3.model.StorageClass;
 import com.ws.ogre.v2.aws.S3BetterUrl;
-import com.ws.ogre.v2.utils.GlobToRegexp;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
-
-import java.util.*;
 
 /*
  log4j.configuration   = log4j.xml

@@ -4,7 +4,6 @@ import com.ws.ogre.v2.aws.EmrClient;
 import com.ws.ogre.v2.aws.S3BetterUrl;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.HashMap;
