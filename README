@@ -4,17 +4,18 @@ O.G.R.E TOOLBOX
 General
 -----------------------------------------------------------------------
 
-Ogre is a suite of tools to facilitate for moving around and operate on data in the "Data Lake".
+Ogre is a suite of tools to facilitate for Extract, Load and Transform data in different formats in a
+AWS S3 based data Lake.
 
 Ogre is open sourced by Widespace AB under Apache License, Version 2.0:
    https://opensource.org/licenses/Apache-2.0
 
-The Data Lake is the company wide repository where different components publish their data for others to
-process and work with it. The data lake is hosted in S3 and there are some rules to follow in order to publish data
-there:
+From Widespaces point of view the AWS S3 data lake is the company wide repository where different applications publish
+their data and making it available to others. The data lake is hosted in S3 buckets and there are some basic rules to
+follow in order to publish data there:
 
  1. The data should be packed as records in AVRO container files.
- 2. Each data record should contain an id and timestamp in UTC.
+ 2. Time series data records should contain an id and timestamp in UTC.
  3. All records within a data file must belong to the same hour.
  4. Data files are uploaded and published into the data lake using following S3 URL pattern:
 
@@ -43,16 +44,20 @@ there:
 Many options exists to join and process the data in the Data Lake:
 
  - Redshift (Ogre can load/sync data from lake into a custom Redshift)
+ - Athena   (Athena can operate directly on the datalake avro files)
  - EMR      (can work with avro files in S3 natively)
  - Spark    (can work with avro files in S3 natively)
  - Kinesis  (Ogre can load/sync data from lake into custom Kinesis streams)
 
 
-The Ogre tools are implemented as simple linux CLI tools. Following tools exist to help making the data in lake
-available in Redshift and Kinesis etc:
+The Ogre tools are implemented as simple CLI tools. Following tools exist to help making the data in lake
+available in Redshift, Kinesis etc:
 
-1. avro2json: Exploads and converts data files into json format. This to be able to import data into Redshift. The
-           tool supports bulk converts for a period or continuously converting new data as it is published in the lake.
+1. avro2json: Converts avro files to json. Nested lists and maps are also explodes into own separate two dimensional
+           json files. Exploded maps and lists will have foreign keys to main data file for joining. This tool is mainly
+           used to convert avro files to json for speedier imports into Redshift.
+           The tool supports bulk converts for a period or continuously converting new data as it is published in the
+           lake.
 
 2. data2redshift: Imports data into a Redshift. Handles automatic AVRO/DDL schema changes and data partitioning
            seamlessly. The tool tool supports bulk import for a period or continuously import of new data as it is
@@ -61,12 +66,15 @@ available in Redshift and Kinesis etc:
 3. avro2kinesis: Loads data into a custom Kinesis Stream. The tool supports bulk loading for a period or continuously
            loading new data into the stream as it is published in the lake.
 
-4. avro2s3: Copies data files from 1 s3 data lake location into another. This to be able to copy data from the old
+4. avro2s3: Copies data files from a S3 data lake location into another. This to be able to copy data from the old
            unstructured path into new structured data lake path. Also, for any path, we can copy data from 1 location
            to another location (e.g. bucket).
 
-5. db2avro: Runs arbitrary SQLs in a relational database (like MySQL or Redshift), the result is dynamically
-           converted to AVRO and uploaded to S3.
+5. db2avro: Runs arbitrary SQL scripts in a relational database (like MySQL or Redshift), the result is dynamically
+           converted to AVRO and uploaded to S3. Support for dependency check to make sure required data is in place
+           before script is executed. This tool is mainly used to dump dimension tables to the data lake as well as
+           running ETL jobs aggregating data in e.g. a Redshift and dump the result in datalake. An ETL chain can be
+           build using this tool.
 
 6. data2rds: Imports data into a RDS DB. Handles automatic AVRO/DDL schema changes and data partitioning
             seamlessly. The tool tool supports bulk import for a period or continuously import of new data as it is
@@ -76,9 +84,16 @@ available in Redshift and Kinesis etc:
 Installation
 -----------------------------------------------------------------------
 
-- Start (or reuse) an EC2 instance where to launch Ogre from. Log into it.
+- Import the Athena and Redshift drivers into your local maven repository:
 
-- Download the latest Ogre binary (ogre-x.x.x.x-bin.tar.gz) and extract it.
+  mvn install:install-file -Dfile=lib/RedshiftJDBC41.jar -DgroupId=com.amazon.redshift -DartifactId=aws-redshift-jdbc41 -Dversion=1.1.13.1013 -Dpackaging=jar
+  mvn install:install-file -Dfile=lib/AthenaJDBC41_2.0.9.jar -DgroupId=com.amazonaws.athena.jdbc -DartifactId=AthenaJDBC41 -Dversion=2.0.9 -Dpackaging=jar
+
+- Build the ogre.jar and the ogre-x.x.x-bin.tar.gz package (output dir: target folder)
+
+  mvn install
+
+- Extract the ogre-x.x.x-bin.tar.gz file on the machine to use to install it
 
 
 avro2json
