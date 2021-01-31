@@ -1,6 +1,6 @@
 package com.ws.ogre.v2.commands.data2rds;
 
-import com.ws.ogre.v2.aws.S3Url;
+import com.ws.ogre.v2.aws.S3BetterUrl;
 import com.ws.ogre.v2.commands.data2rds.db.PartitionHandler;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -91,8 +91,8 @@ public class Config {
 
     public String srcAccessKey;
     public String srcSecret;
-    public S3Url srcRootDir;
-    public S3Url srcDdlDir;
+    public S3BetterUrl srcRootDir;
+    public S3BetterUrl srcDdlDir;
     public String srcTimestampColumnName;
 
     public String dstHost;
@@ -146,12 +146,12 @@ public class Config {
         tableSpec = getTableSpec(aConf);
     }
 
-    private S3Url getS3Url(PropertiesConfiguration theConf, String theKey) {
+    private S3BetterUrl getS3Url(PropertiesConfiguration theConf, String theKey) {
         if (!theConf.containsKey(theKey)) {
             return null;
         }
 
-        return new S3Url(theConf.getString(theKey));
+        return new S3BetterUrl(theConf.getString(theKey));
     }
 
     private PartitionHandler.PartitionTableSpec getTableSpec(PropertiesConfiguration theConf) {

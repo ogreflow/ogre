@@ -10,7 +10,7 @@ import com.ws.ogre.v2.avroutils.AvroPath;
 import com.ws.ogre.v2.avroutils.AvroPathParser;
 import com.ws.ogre.v2.avroutils.AvroPaths;
 import com.ws.ogre.v2.avroutils.AvroRecordReader;
-import com.ws.ogre.v2.aws.S3Url;
+import com.ws.ogre.v2.aws.S3BetterUrl;
 import com.ws.ogre.v2.aws.S3Client;
 import com.ws.ogre.v2.datafile.DataFileHandler;
 import com.ws.ogre.v2.datafile.DataFileHandler.*;
@@ -40,7 +40,7 @@ public class AvroToJsonHandler {
 
     private DataFileHandler myJsonDataFileHandler;
     private S3Client myJsonS3Client;
-    private S3Url myJsonRoot;
+    private S3BetterUrl myJsonRoot;
     private StorageClass myJsonStorageClass;
 
     private Set<String> myTypes;
@@ -351,7 +351,7 @@ public class AvroToJsonHandler {
             // Initiate uploads...
             for (AvroToJsonGzWriter aWriter : theWriters) {
 
-                S3Url aDest = DataFile.createUrl(myJsonRoot, theFile.date, theFile.hour, aWriter.getType(), theFile.name, "json.gz");
+                S3BetterUrl aDest = DataFile.createUrl(myJsonRoot, theFile.date, theFile.hour, aWriter.getType(), theFile.name, "json.gz");
 
                 if (aWriter.getRowCount() == 0) {
                     ourLogger.trace("File %s contains no records, skip it", aDest);

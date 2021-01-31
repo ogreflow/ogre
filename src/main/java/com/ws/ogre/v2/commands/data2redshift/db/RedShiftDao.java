@@ -1,7 +1,7 @@
 package com.ws.ogre.v2.commands.data2redshift.db;
 
 import com.ws.common.logging.Logger;
-import com.ws.ogre.v2.aws.S3Url;
+import com.ws.ogre.v2.aws.S3BetterUrl;
 import com.ws.ogre.v2.datetime.DateHour;
 import org.hibernate.Session;
 import org.hibernate.jdbc.Work;
@@ -40,7 +40,7 @@ public class RedShiftDao {
         mySchema = theSchema;
     }
 
-    public void copy(String theTable, S3Url theManifestUrl, S3Url theMappingUrl, Format theFormat) {
+    public void copy(String theTable, S3BetterUrl theManifestUrl, S3BetterUrl theMappingUrl, Format theFormat) {
         try {
             EntityManager aManager = DbHandler.getInstance().getEntityManager();
 

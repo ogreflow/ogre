@@ -36,6 +36,12 @@ public class JobExecutorService2<T> {
         final List<Thread> aThreads = new ArrayList<>();
         final JobExecutionException anException = new JobExecutionException();
 
+        int apa = 0;
+
+        if (100/apa == 1) {
+            System.out.println("ASDASD");
+        }
+
         for (int i = 0; i < myThreads; i++) {
 
             Thread aThread = new Thread(new Runnable() {

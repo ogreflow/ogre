@@ -1,6 +1,6 @@
 package com.ws.ogre.v2.commands.data2redshift;
 
-import com.ws.ogre.v2.aws.S3Url;
+import com.ws.ogre.v2.aws.S3BetterUrl;
 import com.ws.ogre.v2.commands.data2redshift.db.ImportLogDao;
 import com.ws.ogre.v2.datafile.DataFileHandler.*;
 import com.ws.ogre.v2.datetime.DateHour;
@@ -30,7 +30,7 @@ public class ImportedHandler {
                 anImported = "s3://" + myBucket + "/" + anImported;
             }
 
-            aFiles.add(new DataFile(new S3Url(anImported)));
+            aFiles.add(new DataFile(new S3BetterUrl(anImported)));
         }
 
         return aFiles;

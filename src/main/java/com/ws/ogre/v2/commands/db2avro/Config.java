@@ -1,7 +1,7 @@
 package com.ws.ogre.v2.commands.db2avro;
 
 import com.amazonaws.services.s3.model.StorageClass;
-import com.ws.ogre.v2.aws.S3Url;
+import com.ws.ogre.v2.aws.S3BetterUrl;
 import com.ws.ogre.v2.db.JdbcDbHandler;
 import com.ws.ogre.v2.db.JdbcDbHandlerBuilder;
 import org.apache.commons.configuration.ConfigurationException;
@@ -45,7 +45,7 @@ public class Config {
 
     public String dstAccessKey;
     public String dstSecret;
-    public S3Url  dstRoot;
+    public S3BetterUrl dstRoot;
     public String dstComponent;
     public String dstSource;
     public StorageClass dstStorageClass;
@@ -82,7 +82,7 @@ public class Config {
 
         dstAccessKey    = aConf.getString("dst.s3.accessKeyId");
         dstSecret       = aConf.getString("dst.s3.secretKey");
-        dstRoot         = new S3Url(aConf.getString("dst.s3.rootPath"));
+        dstRoot         = new S3BetterUrl(aConf.getString("dst.s3.rootPath"));
         dstComponent    = aConf.getString("dst.s3.component");
         dstSource       = aConf.getString("dst.s3.source");
         dstStorageClass = StorageClass.fromValue(aConf.getString("dst.s3.storageClass", "STANDARD_IA"));

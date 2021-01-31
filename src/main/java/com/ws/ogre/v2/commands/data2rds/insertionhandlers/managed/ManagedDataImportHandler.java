@@ -1,6 +1,6 @@
 package com.ws.ogre.v2.commands.data2rds.insertionhandlers.managed;
 
-import com.ws.ogre.v2.aws.S3Url;
+import com.ws.ogre.v2.aws.S3BetterUrl;
 import com.ws.ogre.v2.commands.data2rds.db.ImportLogDao;
 import com.ws.ogre.v2.commands.data2rds.db.RdsDao;
 import com.ws.ogre.v2.commands.data2rds.insertionhandlers.DataImportHandler;
@@ -44,7 +44,7 @@ public class ManagedDataImportHandler implements DataImportHandler {
         Set<String> someImported = ImportLogDao.getInstance().findFilesByTypeAndTimeRange(theFrom, theTo, theType);
 
         for (String anImported : someImported) {
-            aFiles.add(new DataFile(new S3Url(anImported)));
+            aFiles.add(new DataFile(new S3BetterUrl(anImported)));
         }
 
         return aFiles;

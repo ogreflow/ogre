@@ -1,6 +1,6 @@
 package com.ws.ogre.v2.commands.data2redshift;
 
-import com.ws.ogre.v2.aws.S3Url;
+import com.ws.ogre.v2.aws.S3BetterUrl;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
@@ -52,9 +52,9 @@ public class Config {
 
     public String srcAccessKey;
     public String srcSecret;
-    public S3Url  srcRootDir;
-    public S3Url  srcTmpDir;
-    public S3Url  srcDdlDir;
+    public S3BetterUrl srcRootDir;
+    public S3BetterUrl srcTmpDir;
+    public S3BetterUrl srcDdlDir;
 
     public String dstHost;
     public int dstPort;
@@ -83,9 +83,9 @@ public class Config {
 
         srcAccessKey  = aConf.getString(PROP_SRC_S3_KEYID);
         srcSecret     = aConf.getString(PROP_SRC_S3_SECRET);
-        srcRootDir    = new S3Url(aConf.getString(PROP_SRC_S3_ROOTDIR));
-        srcTmpDir     = new S3Url(aConf.getString(PROP_SRC_S3_TMPDIR));
-        srcDdlDir     = new S3Url(aConf.getString(PROP_SRC_S3_DDLDIR));
+        srcRootDir    = new S3BetterUrl(aConf.getString(PROP_SRC_S3_ROOTDIR));
+        srcTmpDir     = new S3BetterUrl(aConf.getString(PROP_SRC_S3_TMPDIR));
+        srcDdlDir     = new S3BetterUrl(aConf.getString(PROP_SRC_S3_DDLDIR));
 
         dstHost       = aConf.getString(PROP_DST_REDSHIFT_HOST);
         dstPort       = aConf.getInt(PROP_DST_REDSHIFT_PORT, 5439);

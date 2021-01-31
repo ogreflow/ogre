@@ -8,7 +8,7 @@ import com.google.gson.Gson;
 import com.ws.common.logging.Alert;
 import com.ws.common.logging.Logger;
 import com.ws.ogre.v2.aws.S3Client;
-import com.ws.ogre.v2.aws.S3Url;
+import com.ws.ogre.v2.aws.S3BetterUrl;
 import com.ws.ogre.v2.datafile.DataFileHandler;
 import com.ws.ogre.v2.datafile.DataFileHandler.*;
 import com.ws.ogre.v2.datafile.DataFileManifest;
@@ -39,7 +39,7 @@ public class AvroConcatHandler {
 
     private DataFileHandler myAvroDstHandler;
     private S3Client myAvroDstS3Client;
-    private S3Url myAvroDstRoot;
+    private S3BetterUrl myAvroDstRoot;
     private StorageClass myStorageClass;
 
     private Set<String> myTypes;
@@ -282,7 +282,7 @@ public class AvroConcatHandler {
         try {
             // Calc destination path
             DataFile aFile = theIncluded.get(0);
-            S3Url aPath = DataFile.createUrl(myAvroDstRoot, aFile.date, aFile.hour, aFile.type, "concat-" + aFile.name, aFile.ext);
+            S3BetterUrl aPath = DataFile.createUrl(myAvroDstRoot, aFile.date, aFile.hour, aFile.type, "concat-" + aFile.name, aFile.ext);
 
             ourLogger.info("Upload file containing %s concatenated files to %s", theIncluded.size(), aPath);
 
@@ -300,7 +300,7 @@ public class AvroConcatHandler {
             aManifest.setIncludes(theIncluded);
 
             // Upload manifest
-            aPath = new S3Url(aPath.toString() + ".mf");
+            aPath = new S3BetterUrl(aPath.toString() + ".mf");
             ourLogger.info("Upload manifest file to %s", aPath);
             myAvroDstS3Client.putObject(aPath.bucket, aPath.key, aManifest.serialize());
 

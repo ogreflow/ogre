@@ -8,7 +8,7 @@ public class S3UrlTest {
     public void testS3Url_BucketWithSpecialCharacter() {
         try {
             String anS3Url = "s3://ogre.unittests-test/smiskme/DataFileHandlerTest/click/d=2015-02-07/h=08/delivery-2015020708-0001_part_00.gz";
-            S3Url anUrl = new S3Url(anS3Url);
+            S3BetterUrl anUrl = new S3BetterUrl(anS3Url);
             Assert.assertEquals("ogre.unittests-test", anUrl.bucket);
             Assert.assertEquals("smiskme/DataFileHandlerTest/click/d=2015-02-07/h=08/delivery-2015020708-0001_part_00.gz", anUrl.key);
 

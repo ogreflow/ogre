@@ -1,8 +1,7 @@
 package com.ws.ogre.v2.commands.data2rds;
 
 import com.ws.ogre.v2.aws.S3Client;
-import com.ws.ogre.v2.aws.S3Url;
-import com.ws.ogre.v2.commands.data2rds.Config;
+import com.ws.ogre.v2.aws.S3BetterUrl;
 import com.ws.ogre.v2.db.JdbcDbHandler;
 import org.apache.commons.io.IOUtils;
 
@@ -49,7 +48,7 @@ public class InitHandler {
         }
     }
 
-    private void testS3(S3Url theUrl) {
+    private void testS3(S3BetterUrl theUrl) {
         try {
 
             System.out.println("Testing access to: " + theUrl);

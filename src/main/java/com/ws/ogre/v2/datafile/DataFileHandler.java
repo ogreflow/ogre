@@ -7,7 +7,7 @@ import com.amazonaws.services.s3.transfer.Upload;
 import com.ws.common.logging.Alert;
 import com.ws.common.logging.Logger;
 import com.ws.ogre.v2.aws.S3Client;
-import com.ws.ogre.v2.aws.S3Url;
+import com.ws.ogre.v2.aws.S3BetterUrl;
 import com.ws.ogre.v2.datetime.DateHour;
 import com.ws.ogre.v2.datetime.DateHour.DateHours;
 import com.ws.ogre.v2.datetime.DateUtil;
@@ -30,18 +30,18 @@ public class DataFileHandler {
     private static final Logger ourLogger = Logger.getLogger();
 
     private S3Client myS3Client;
-    private S3Url myRoot;
+    private S3BetterUrl myRoot;
 
-    public DataFileHandler(S3Client theClient, S3Url theRootUrl) {
+    public DataFileHandler(S3Client theClient, S3BetterUrl theRootUrl) {
         myS3Client = theClient;
         myRoot = theRootUrl;
     }
 
     public Set<String> getAllTypes() {
-        List<S3Url> someS3Urls = myS3Client.listFolders(myRoot);
+        List<S3BetterUrl> someS3Urls = myS3Client.listFolders(myRoot);
 
         Set<String> someUrls = new HashSet<>();
-        for (S3Url aS3Url : someS3Urls) {
+        for (S3BetterUrl aS3Url : someS3Urls) {
             someUrls.add(aS3Url.getBaseName());
         }
 
@@ -105,11 +105,11 @@ public class DataFileHandler {
 
         // Fetch listing of files for prefix
         ourLogger.trace("Listing objects at s3://%s/%s", myRoot.bucket, aKeyPrefix);
-        List<S3Url> someUrls = myS3Client.listObjects(new S3Url(myRoot.bucket, aKeyPrefix));
+        List<S3BetterUrl> someUrls = myS3Client.listObjects(new S3BetterUrl(myRoot.bucket, aKeyPrefix));
 
         DataFiles aFiles = new DataFiles();
 
-        for (S3Url anUrl : someUrls) {
+        for (S3BetterUrl anUrl : someUrls) {
             if (theRegExpFilter != null && !anUrl.toString().matches(theRegExpFilter)) {
                 ourLogger.debug("Skip %s since it does not match filter: %s", anUrl, theRegExpFilter);
                 continue;
@@ -126,11 +126,11 @@ public class DataFileHandler {
 
         // Fetch listing of files for prefix
         ourLogger.trace("Listing objects at s3://%s/%s", myRoot.bucket, aKeyPrefix);
-        List<S3Url> someUrls = myS3Client.listObjects(new S3Url(myRoot.bucket, aKeyPrefix));
+        List<S3BetterUrl> someUrls = myS3Client.listObjects(new S3BetterUrl(myRoot.bucket, aKeyPrefix));
 
         DataFiles aFiles = new DataFiles();
 
-        for (S3Url anUrl : someUrls) {
+        for (S3BetterUrl anUrl : someUrls) {
             if (theRegExpFilter != null && !anUrl.toString().matches(theRegExpFilter)) {
                 ourLogger.debug("Skip %s since it does not match filter: %s", anUrl, theRegExpFilter);
                 continue;
@@ -292,8 +292,8 @@ public class DataFileHandler {
         return aLatest;
     }
 
-    public void copy(DataFile theFile, S3Url theToRoot) {
-        S3Url aTo = DataFile.createUrl(theToRoot, theFile.date, theFile.hour, theFile.type, theFile.name, theFile.ext);
+    public void copy(DataFile theFile, S3BetterUrl theToRoot) {
+        S3BetterUrl aTo = DataFile.createUrl(theToRoot, theFile.date, theFile.hour, theFile.type, theFile.name, theFile.ext);
 
         ourLogger.info("Copying %s to %s", theFile.url, aTo);
 
@@ -448,7 +448,7 @@ public class DataFileHandler {
      *
      */
     public static class DataFile {
-        public S3Url url;
+        public S3BetterUrl url;
 
         public String id;
 
@@ -468,7 +468,7 @@ public class DataFileHandler {
          * theUrl ==> s3://<bucket>/<avro/json/tsv>/<source>/<component>/<type>/d=2015-02-07/h=16/delivery.yyyymmddhh.random.gz               [ gz ]
          * theUrl ==> s3://<bucket>/<avro/json/tsv>/<source>/<component>/<type>/d=2015-02-07/h=16/delivery.yyyymmddhh.random.0001_part_00.gz  [ tsv ]
          */
-        public DataFile(S3Url theUrl) {
+        public DataFile(S3BetterUrl theUrl) {
 
             Pattern aPattern = Pattern.compile(".*/([^/]+)/d=([0-9]{4}-[0-9]{2}-[0-9]{2})/h=([0-9]{2})/(.*)\\.(.*)");
 
@@ -524,7 +524,7 @@ public class DataFileHandler {
             return "tsv.gz".equals(ext);
         }
 
-        protected static String getDateHourKeyPrefix(S3Url theRoot, DateHour theDateHour, String theType) {
+        protected static String getDateHourKeyPrefix(S3BetterUrl theRoot, DateHour theDateHour, String theType) {
 
             String aYear = theDateHour.format("yyyy");
             String aMonth = theDateHour.format("MM");
@@ -534,7 +534,7 @@ public class DataFileHandler {
             return String.format("%s/%s/d=%s-%s-%s/h=%s/", theRoot.key, theType, aYear, aMonth, aDay, anHour);
         }
 
-        protected static String getDateKeyPrefix(S3Url theRoot, Date theDate, String theType) {
+        protected static String getDateKeyPrefix(S3BetterUrl theRoot, Date theDate, String theType) {
 
             String aYear = DateUtil.format(theDate, "yyyy");
             String aMonth = DateUtil.format(theDate, "MM");
@@ -543,13 +543,13 @@ public class DataFileHandler {
             return String.format("%s/%s/d=%s-%s-%s/", theRoot.key, theType, aYear, aMonth, aDay);
         }
 
-        public static S3Url createUrl(S3Url theRoot, String theDate, String theHour, String theType, String theName, String theExt) {
+        public static S3BetterUrl createUrl(S3BetterUrl theRoot, String theDate, String theHour, String theType, String theName, String theExt) {
 
             String aYear = theDate.substring(0, 4);
             String aMonth = theDate.substring(5, 7);
             String aDay = theDate.substring(8, 10);
 
-            return new S3Url(String.format("%s/%s/d=%s-%s-%s/h=%s/%s.%s", theRoot, theType, aYear, aMonth, aDay, theHour, theName, theExt));
+            return new S3BetterUrl(String.format("%s/%s/d=%s-%s-%s/h=%s/%s.%s", theRoot, theType, aYear, aMonth, aDay, theHour, theName, theExt));
         }
 
         @Override

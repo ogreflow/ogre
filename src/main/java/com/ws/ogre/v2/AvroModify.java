@@ -1,7 +1,7 @@
 package com.ws.ogre.v2;
 
 import com.ws.ogre.v2.aws.S3Client;
-import com.ws.ogre.v2.aws.S3Url;
+import com.ws.ogre.v2.aws.S3BetterUrl;
 import com.ws.ogre.v2.avroutils.AvroPath;
 import org.apache.avro.Schema;
 import org.apache.avro.file.CodecFactory;
@@ -505,7 +505,7 @@ public class AvroModify {
             anModFile = new File(anAvroLocation + ".mod");
 
         } else {
-            S3Url anUrl = new S3Url(anAvroLocation);
+            S3BetterUrl anUrl = new S3BetterUrl(anAvroLocation);
 
             String aKey;
             String aSecret;
